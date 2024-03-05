@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <Windows.h>
 #include <vector>
+#include <limits>
 //#pragma comment(lib, "winmm.lib")
 using namespace std;
 
@@ -101,9 +102,9 @@ else if (dice==10){
 cout << R"(
   ___________
  |           |
- | 0 0 0 0 0 |
- |           |
- | 0 0 0 0 0 |
+ |  0 0 0 0  |
+ |   0   0   |
+ |  0 0 0 0  |
  |___________|)";
 }
  cout << endl;
@@ -167,9 +168,15 @@ int main ()
         for ( int i=0; i<players; i++)
         {
             cout << "\n\nFill in your bank account, player " << i+1<<" : $";
-            cin >> amount;
+            while (!(cin >> amount)){
+            cout << "Please enter a numerical value: ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
             amounts.push_back(amount);
         }
+
         cout << "\n\n_______________________________________________________________________________________\n\n";
         for (int i=0; i<players; i++)
         {
@@ -192,7 +199,10 @@ do
             while(true)
             {
                 cout << names[i] << "'s bet: $";
-                cin >> bet;
+                while (!(cin >> bet)) {
+                cout << "Please enter a numerical value: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); }
                 if( bet > amounts[i])
                 {
                     cout << "You can't afford to bet so much, bet less!\n";
@@ -209,7 +219,10 @@ do
             while(true)
             {
                 cout << names[i] << "'s guess: ";
-                cin >> guess;
+                 while (!(cin >> guess)) {
+                cout << "Please enter a numerical value: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); }
                 if( guess > 10)
                 {
                     cout << "The number you guess has to be between 1 and 10!\n";
@@ -286,7 +299,7 @@ PYST PYST!                        |       \
         for (int i=0; i< players; i++) {
                 if(amounts[i] == 0)
         {
-            cout << "Sadly you have no money to play... See you next time! ";
+            cout << "\n\nSadly you have no money to play... See you next time! ";
              cout << R"(
                      __/>^^^;:,
         __  __      /-.       :,/|/|
@@ -309,7 +322,7 @@ PYST PYST!                        |       \
         }
         }
 
-        string playagain = "\nDo you wish to continue playing?\n";
+        string playagain = "\nDo you wish to continue playing? Y/N\n";
         for (int i = 0; i < playagain[i]; i++)
         {
             cout << playagain[i];
